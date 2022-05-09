@@ -1,4 +1,6 @@
 import "./Login.css";
+import axios from "axios";
+import { useState } from "react";
 function InputComponent({ msg, id, type, onChange, value, maxLength }) {
 	return (
 		<div className="input-component">
@@ -29,6 +31,8 @@ function ButtonComponent({ msg, onClick, id }) {
 }
 
 function Login() {
+	const [ID, setID] = useState("");
+	const [PW, setPW] = useState("");
 	return (
 		<div className="Login">
 			<h1 className="login-title">Login</h1>
@@ -38,7 +42,7 @@ function Login() {
 					id="id"
 					type="text"
 					onChange={(e) => {
-						console.log(e.target.value);
+						setID(e.target.value);
 					}}
 					value=""
 					maxLength={20}
@@ -48,7 +52,7 @@ function Login() {
 					id="password"
 					type="password"
 					onChange={(e) => {
-						console.log(e.target.value);
+						setPW(e.target.value);
 					}}
 					value=""
 					maxLength={20}
