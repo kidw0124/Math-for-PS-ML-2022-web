@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 export { default as Home } from "./Home";
 export { default as Error } from "./Error";
 export { default as Login } from "./Login";
+export { default as Problem } from "./Problem";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
