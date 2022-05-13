@@ -1,6 +1,6 @@
 import "./Login.css";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function InputComponent({ msg, id, type, onChange, value, maxLength }) {
 	return (
 		<div className="input-component">
@@ -33,6 +33,14 @@ function ButtonComponent({ msg, onClick, id }) {
 function Login() {
 	const [ID, setID] = useState("");
 	const [PW, setPW] = useState("");
+	const [ip, setIP] = useState("");
+	const getData = async () => {
+		const res = await axios.get("https://geolocation-db.com/json/");
+		setIP(res.data.IPv4);
+	};
+	useEffect(() => {
+		getData();
+	}, []);
 	return (
 		<div className="Login">
 			<h1 className="login-title">Login</h1>
