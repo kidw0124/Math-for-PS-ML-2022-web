@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require("mysql");
 const dbconfig = require("./../config/database.config.js").dbconfig;
 const matkor = mysql.createConnection({ ...dbconfig, database: "MatKor" });
+const hash = require("./../modules/hash");
 
 matkor.connect((err) => {
 	if (err) {
@@ -43,4 +44,64 @@ const selectUser = (id) => {
 	});
 };
 
-module.exports = { router, insertUser, selectUser };
+const selectSessionCount = (session_key) => {
+	return new Promise((resolve, reject) => {
+		matkor.query(
+			"SELECT * FROM sessions WHERE session_key = ?",
+			[session_key],
+			function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result.length);
+				}
+			}
+		);
+	});
+};
+
+const createSession = async (user, ip) => {
+	const date = new Date();
+	const uid = (await selectUser(user.id))[0].uid;
+	const session_key = hash.hash(user.id + ip);
+	matkor.query("UPDATE users SET last_login = ? WHERE uid = ?", [
+		date.toISOString().slice(0, 19).replace("T", " "),
+		uid,
+	]);
+	const session_count = await selectSessionCount(session_key);
+	console.log(session_count);
+	if (session_count === 0) {
+		return new Promise((resolve, reject) => {
+			matkor.query(
+				"INSERT INTO sessions (uid, expire, ip, session_key) VALUES (?, ?, ?, ?)",
+				[
+					uid,
+					new Date(date.setMonth(date.getMonth() + 1))
+						.toISOString()
+						.slice(0, 19)
+						.replace("T", " "),
+					ip,
+					session_key,
+				],
+				function (err, result) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(session_key);
+					}
+				}
+			);
+		});
+	} else {
+		matkor.query("UPDATE sessions SET expire = ? WHERE session_key = ?", [
+			new Date(date.setMonth(date.getMonth() + 1))
+				.toISOString()
+				.slice(0, 19)
+				.replace("T", " "),
+			session_key,
+		]);
+		return session_key;
+	}
+};
+
+module.exports = { router, insertUser, selectUser, createSession };
