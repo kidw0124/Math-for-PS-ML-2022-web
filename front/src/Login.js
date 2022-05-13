@@ -16,18 +16,51 @@ function InputComponent({ msg, id, type, onChange, value, maxLength }) {
 		</div>
 	);
 }
-function ButtonComponent({ msg, onClick, id }) {
+function ButtonComponent({ msg, onClick, id, type }) {
 	return (
 		<div className="button-component">
-			<div
-				className="button-component-button"
-				onClick={onClick}
-				id={"button-component-button-" + id}
-			>
-				{msg}
-			</div>
+			{type === "submit" ? (
+				<button
+					className="button-component-button"
+					id={"button-component-button-" + id}
+					type={type}
+					onClick={onClick}
+				>
+					{msg}
+				</button>
+			) : (
+				<div
+					className="button-component-button"
+					id={"button-component-button-" + id}
+					onClick={onClick}
+				>
+					{msg}
+				</div>
+			)}
 		</div>
 	);
+}
+
+function login_send(ip, ID, PW) {
+	axios
+		.post(
+			"/api/login",
+			{
+				ip: ip,
+			},
+			{
+				params: {
+					id: ID,
+					password: PW,
+				},
+			}
+		)
+		.then((result) => {
+			alert(result.data.message);
+		})
+		.catch((err) => {
+			alert(err.response.data.message);
+		});
 }
 
 function Login() {
@@ -42,7 +75,13 @@ function Login() {
 		getData();
 	}, []);
 	return (
-		<div className="Login">
+		<form
+			className="Login"
+			onSubmit={(e) => {
+				login_send(ip, ID, PW);
+				e.preventDefault();
+			}}
+		>
 			<h1 className="login-title">Login</h1>
 			<div className="login-input-container">
 				<InputComponent
@@ -72,34 +111,11 @@ function Login() {
 					onClick={() => {
 						console.log("Register");
 					}}
+					type="button"
 				/>
-				<ButtonComponent
-					msg="Login"
-					onClick={() => {
-						axios
-							.post(
-								"/api/login",
-								{
-									ip: ip,
-								},
-								{
-									params: {
-										id: ID,
-										password: PW,
-									},
-								}
-							)
-							.then((result) => {
-								alert(result.data.message);
-							})
-							.catch((err) => {
-								alert(err.response.data.message);
-							});
-					}}
-					id="id"
-				/>
+				<ButtonComponent msg="Login" onClick={() => {}} id="id" type="submit" />
 			</div>
-		</div>
+		</form>
 	);
 }
 export default Login;

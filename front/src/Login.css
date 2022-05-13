@@ -66,6 +66,8 @@
 #button-component-button-id {
 	font-weight: bold;
 	padding: 5px 15px;
+	border-width: 0;
+	color: #fff;
 	border-radius: 5px;
 	font-size: 1.5rem;
 	background-color: #2f5f6f;
