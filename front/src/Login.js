@@ -68,7 +68,19 @@ function Login() {
 				<ButtonComponent
 					msg="Login"
 					onClick={() => {
-						console.log("Login");
+						axios
+							.get("/api/login", {
+								params: {
+									id: ID,
+									password: PW,
+								},
+							})
+							.then((result) => {
+								alert(result.data.message);
+							})
+							.catch((err) => {
+								alert(err.response.data.message);
+							});
 					}}
 					id="id"
 				/>
