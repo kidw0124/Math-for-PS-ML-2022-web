@@ -4,11 +4,12 @@ const bcrypt = require("bcrypt");
 const db = require("./db");
 const saltRounds = 10;
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
 	const { id, password } = req.query;
+	const { ip } = req.body;
 	console.log(id, password);
 	db.selectUser(id)
-		.then((result) => {
+		.then(async (result) => {
 			if (result.length === 0) {
 				res.send({
 					success: false,
@@ -17,10 +18,12 @@ router.get("/", (req, res) => {
 			} else {
 				const user = result[0];
 				if (bcrypt.compareSync(password, user.password)) {
+					const session = await db.createSession(user, ip);
 					res.send({
 						success: true,
 						message: "로그인 성공",
-						user: user,
+						session: session,
+						user: user.id,
 					});
 				} else {
 					res.send({
@@ -31,6 +34,7 @@ router.get("/", (req, res) => {
 			}
 		})
 		.catch((err) => {
+			console.log(err);
 			res.send({
 				success: false,
 				message: "데이터베이스 오류",

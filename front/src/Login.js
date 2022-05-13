@@ -77,12 +77,18 @@ function Login() {
 					msg="Login"
 					onClick={() => {
 						axios
-							.get("/api/login", {
-								params: {
-									id: ID,
-									password: PW,
+							.post(
+								"/api/login",
+								{
+									ip: ip,
 								},
-							})
+								{
+									params: {
+										id: ID,
+										password: PW,
+									},
+								}
+							)
 							.then((result) => {
 								alert(result.data.message);
 							})
