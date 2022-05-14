@@ -23,4 +23,29 @@ router.post("/", (req, res) => {
 		});
 });
 
+router.post("/id-duplicate-check", (req, res) => {
+	const { id } = req.body;
+	db.selectUser(id)
+		.then((result) => {
+			if (result.length === 0) {
+				res.send({
+					success: true,
+					message: "사용 가능한 아이디입니다.",
+				});
+			} else {
+				res.send({
+					success: false,
+					message: "이미 사용중인 아이디입니다.",
+				});
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({
+				success: false,
+				message: "데이터베이스 오류",
+			});
+		});
+});
+
 module.exports = router;
