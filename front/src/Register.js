@@ -13,10 +13,10 @@ function InputComponent({
 }) {
 	return (
 		<div className="input-container">
-			<div className="input-component">
-				<div className="input-component-msg">{msg}</div>
+			<div className="input-component-regi">
+				<div className="input-component-regi-msg">{msg}</div>
 				<input
-					className="input-component-input"
+					className="input-component-regi-input"
 					id={"input-component-input-" + id}
 					type={type}
 					onChange={onChange}
@@ -24,7 +24,7 @@ function InputComponent({
 					maxLength={maxLength}
 				/>
 			</div>
-			<div className="input-component-additional">{additional}</div>
+			<div className="input-component-regi-additional">{additional}</div>
 		</div>
 	);
 }

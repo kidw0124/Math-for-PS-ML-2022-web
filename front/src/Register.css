@@ -6,24 +6,24 @@
 	width: fit-content;
 	margin: 0 0 1rem 0;
 }
-.input-component {
+.input-component-regi {
 	width: 27rem;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 }
-.input-component-msg {
+.input-component-regi-msg {
 	width: 8rem;
 	text-align: right;
 	user-select: none;
 }
-.input-component-input {
+.input-component-regi-input {
 	width: 15rem;
 	border-radius: 5px;
 	font-size: 1rem;
 }
-.input-component-additional {
+.input-component-regi-additional {
 	width: 5rem;
 	border-radius: 5px;
 	font-size: 1rem;
