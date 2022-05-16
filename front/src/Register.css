@@ -7,7 +7,7 @@
 	margin: 0 0 1rem 0;
 }
 .input-component-regi {
-	width: 27rem;
+	width: 33rem;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -19,7 +19,7 @@
 	user-select: none;
 }
 .input-component-regi-input {
-	width: 15rem;
+	width: 20rem;
 	border-radius: 5px;
 	font-size: 1rem;
 }
@@ -35,10 +35,12 @@
 	cursor: pointer;
 	text-align: center;
 	border-radius: 5px;
-	background-color: #e7e7e7;
+	background-color: aliceblue;
 	color: black;
 	display: flex;
 	align-items: center;
+	border: none;
+	border-color: transparent;
 	justify-content: center;
 	height: 1.5rem;
 }
@@ -99,4 +101,12 @@
 	font-size: 1.5rem;
 	background-color: #2f5f6f;
 	font-family: "Courier New", Courier, monospace;
+}
+input:invalid {
+	border-color: red;
+	border-width: 2px;
+}
+input:valid {
+	border-color: blue;
+	border-width: 2px;
 }

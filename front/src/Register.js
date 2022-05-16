@@ -10,6 +10,10 @@ function InputComponent({
 	value,
 	maxLength,
 	additional,
+	placeholder,
+	required = true,
+	minLength,
+	pattern,
 }) {
 	return (
 		<div className="input-container">
@@ -21,20 +25,26 @@ function InputComponent({
 					type={type}
 					onChange={onChange}
 					defaultValue={value}
-					maxLength={maxLength}
+					maxLength={maxLength ? maxLength : null}
+					minLength={minLength ? minLength : 0}
+					placeholder={placeholder}
+					required={required}
+					pattern={pattern}
 				/>
 			</div>
 			<div className="input-component-regi-additional">{additional}</div>
 		</div>
 	);
 }
-function ButtonComponent({ msg, onClick, id }) {
+function ButtonComponent({ msg, onClick, id, disabled, visible }) {
 	return (
 		<div className="button-component">
 			<div
 				className="button-component-button"
 				id={"button-component-button-" + id}
 				onClick={onClick}
+				disabled={disabled}
+				style={{ visibility: visible ? "visible" : "hidden" }}
 			>
 				{msg}
 			</div>
@@ -62,94 +72,115 @@ function Register() {
 	const [pwCheck, setPwCheck] = useState("");
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
-
+	const [dup, setDup] = useState(false);
+	const idDuplicateCheck = () => {
+		axios
+			.post("/api/register/id-duplicate-check", {
+				id: id,
+			})
+			.then((result) => {
+				alert(result.data.message);
+				if (result.data.success) {
+					document.getElementById("id-duplicate-check").innerHTML = "사용가능";
+					document.getElementById("id-duplicate-check").style.color = "blue";
+					document.getElementById("id-duplicate-check").style.cursor =
+						"default";
+					document.getElementById("id-duplicate-check").style.pointerEvents =
+						"none";
+					document.getElementById("id-duplicate-check").disabled = true;
+					document.getElementById("id-duplicate-check").style.backgroundColor =
+						"transparent";
+					document.getElementById("input-component-input-id").disabled = true;
+					setDup(true);
+				}
+			});
+	};
 	return (
 		<div className="register-container">
 			<div className="register-title">회원가입</div>
 			<div className="register-input-container">
 				<InputComponent
-					msg="ID"
+					msg="ID *"
 					id="id"
 					type="text"
 					onChange={(e) => setId(e.target.value)}
 					value={id}
 					maxLength="20"
+					minLength="4"
+					placeholder="4~20글자의 ID를 입력해주세요"
 					additional={
-						<div
-							id="id-duplicate-check"
-							onClick={() => {
-								axios
-									.post("/api/register/id-duplicate-check", {
-										id: id,
-									})
-									.then((result) => {
-										alert(result.data.message);
-										if (result.data.success) {
-											document.getElementById("id-duplicate-check").innerHTML =
-												"사용가능";
-											document.getElementById(
-												"id-duplicate-check"
-											).style.color = "green";
-											document.getElementById(
-												"id-duplicate-check"
-											).style.cursor = "default";
-											document.getElementById(
-												"id-duplicate-check"
-											).style.pointerEvents = "none";
-											document.getElementById(
-												"id-duplicate-check"
-											).disabled = true;
-											document.getElementById(
-												"id-duplicate-check"
-											).style.backgroundColor = "transparent";
-											document.getElementById(
-												"input-component-input-id"
-											).disabled = true;
-										}
-									});
-							}}
-						>
-							중복확인
-						</div>
+						id.length >= 4 && id.length <= 20 ? (
+							<div id="id-duplicate-check" onClick={idDuplicateCheck}>
+								중복확인
+							</div>
+						) : (
+							""
+						)
 					}
 				/>
 				<InputComponent
-					msg="비밀번호"
+					msg="비밀번호 *"
 					id="password"
 					type="password"
 					onChange={(e) => setPw(e.target.value)}
 					value={pw}
+					placeholder="8~20글자의 비밀번호를 입력해주세요"
+					minLength="8"
 					maxLength="20"
 				/>
 				<InputComponent
-					msg="비밀번호확인"
+					msg="비밀번호확인 *"
 					id="passwordCheck"
 					type="password"
 					onChange={(e) => setPwCheck(e.target.value)}
 					value={pwCheck}
+					placeholder="비밀번호를 한번 더 입력해주세요"
+					minLength="8"
 					maxLength="20"
+					additional={
+						<div id="password-check">{pwCheck === pw ? "" : "불일치"}</div>
+					}
 				/>
 				<InputComponent
-					msg="이름"
+					msg="이름 *"
 					id="name"
 					type="text"
 					onChange={(e) => setName(e.target.value)}
 					value={name}
 				/>
 				<InputComponent
-					msg="이메일"
+					msg="이메일 *"
 					id="email"
 					type="email"
 					onChange={(e) => setEmail(e.target.value)}
 					value={email}
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
 				/>
 			</div>
 			<div className="register-button-container">
-				<ButtonComponent
-					msg="회원가입"
-					onClick={() => register_send(id, pw, pwCheck, name, email)}
-					id="register"
-				/>
+				{id.length >= 4 &&
+				id.length <= 20 &&
+				pw.length >= 8 &&
+				pw.length <= 20 &&
+				pwCheck === pw &&
+				name.length > 0 &&
+				email.length > 0 &&
+				dup ? (
+					<ButtonComponent
+						msg="회원가입"
+						onClick={() => register_send(id, pw, pwCheck, name, email)}
+						id="register"
+						disabled={false}
+						visible={true}
+					/>
+				) : (
+					<ButtonComponent
+						msg="회원가입"
+						id="register"
+						disabled={true}
+						visible={false}
+					/>
+				)}
 			</div>
 		</div>
 	);
