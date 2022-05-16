@@ -1,6 +1,7 @@
 import "./Login.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link, Navigate, Redirect } from "react-router-dom";
 function InputComponent({ msg, id, type, onChange, value, maxLength }) {
 	return (
 		<div className="input-component">
@@ -28,6 +29,14 @@ function ButtonComponent({ msg, onClick, id, type }) {
 				>
 					{msg}
 				</button>
+			) : type === "link" ? (
+				<Link
+					className="button-component-button"
+					id={"button-component-button-" + id}
+					to={onClick}
+				>
+					{msg}
+				</Link>
 			) : (
 				<div
 					className="button-component-button"
@@ -106,13 +115,7 @@ function Login() {
 				/>
 			</div>
 			<div className="login-button-container">
-				<ButtonComponent
-					msg="Register"
-					onClick={() => {
-						console.log("Register");
-					}}
-					type="button"
-				/>
+				<ButtonComponent msg="Register" onClick="/register" type="link" />
 				<ButtonComponent msg="Login" onClick={() => {}} id="id" type="submit" />
 			</div>
 		</form>
