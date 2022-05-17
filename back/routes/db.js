@@ -136,6 +136,21 @@ const createSession = async (user, ip) => {
 	}
 };
 
+const getAllProblems = () => {
+	return new Promise((resolve, reject) => {
+		matkor.query(
+			"SELECT number,title FROM problems WHERE public = 1",
+			function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
+
 module.exports = {
 	router,
 	insertUser,
@@ -143,4 +158,5 @@ module.exports = {
 	createSession,
 	selectUserByName,
 	selectUserBySession,
+	getAllProblems,
 };
