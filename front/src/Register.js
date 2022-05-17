@@ -39,31 +39,18 @@ function InputComponent({
 function ButtonComponent({ msg, onClick, id, disabled, visible }) {
 	return (
 		<div className="button-component">
-			<div
+			<button
 				className="button-component-button"
 				id={"button-component-button-" + id}
 				onClick={onClick}
 				disabled={disabled}
+				type={visible ? "submit" : "none"}
 				style={{ visibility: visible ? "visible" : "hidden" }}
 			>
 				{msg}
-			</div>
+			</button>
 		</div>
 	);
-}
-
-function register_send(id, pw, pwCheck, name, email) {
-	axios
-		.post("/api/register", {
-			id: id,
-			password: pw,
-			passwordCheck: pwCheck,
-			name: name,
-			email: email,
-		})
-		.then((result) => {
-			alert(result.data.message);
-		});
 }
 
 function Register() {
@@ -73,6 +60,15 @@ function Register() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [dup, setDup] = useState(false);
+	const nameset = [
+		"김동우",
+		"김예훈",
+		"김현준",
+		"황대엽",
+		"최창호",
+		"박성현",
+		"이유림",
+	];
 	const idDuplicateCheck = () => {
 		axios
 			.post("/api/register/id-duplicate-check", {
@@ -95,8 +91,51 @@ function Register() {
 				}
 			});
 	};
+	const register_send = async (id, pw, pwCheck, name, email) => {
+		const idCheck = await axios.post("/api/register/id-duplicate-check", {
+			id: id,
+		});
+		if (!idCheck.data.success) {
+			alert(idCheck.data.message);
+			return false;
+		} else {
+			const register = await axios.post("/api/register", {
+				id: id,
+				password: pw,
+				passwordCheck: pwCheck,
+				name: name,
+				email: email,
+			});
+			if (register.data.success) {
+				alert(register.data.message);
+				return true;
+			}
+		}
+	};
 	return (
-		<div className="register-container">
+		<form
+			className="register-container"
+			onSubmit={async (e) => {
+				e.preventDefault();
+				if (
+					id.length >= 4 &&
+					id.length <= 20 &&
+					pw.length >= 8 &&
+					pw.length <= 20 &&
+					pwCheck === pw &&
+					name.length > 0 &&
+					email.length > 0 &&
+					nameset.includes(name) &&
+					dup
+				) {
+					const regi_succ = await register_send(id, pw, pwCheck, name, email);
+					console.log(regi_succ);
+					if (regi_succ) {
+						window.location.href = "/";
+					}
+				}
+			}}
+		>
 			<div className="register-title">회원가입</div>
 			<div className="register-input-container">
 				<InputComponent
@@ -157,6 +196,7 @@ function Register() {
 					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
 				/>
 			</div>
+
 			<div className="register-button-container">
 				{id.length >= 4 &&
 				id.length <= 20 &&
@@ -165,10 +205,10 @@ function Register() {
 				pwCheck === pw &&
 				name.length > 0 &&
 				email.length > 0 &&
+				nameset.includes(name) &&
 				dup ? (
 					<ButtonComponent
 						msg="회원가입"
-						onClick={() => register_send(id, pw, pwCheck, name, email)}
 						id="register"
 						disabled={false}
 						visible={true}
@@ -182,7 +222,7 @@ function Register() {
 					/>
 				)}
 			</div>
-		</div>
+		</form>
 	);
 }
 
