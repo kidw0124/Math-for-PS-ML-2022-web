@@ -50,24 +50,19 @@ router.post("/user-info", async (req, res) => {
 			success: false,
 			message: "세션이 존재하지 않습니다.",
 		});
-	} else if (user[0].ip !== ip) {
+	} else if (ip !== "" && user[0].ip !== ip) {
 		res.send({
 			success: false,
 			message: "세션이 유효하지 않습니다.",
 		});
-	} else if (user[0].ip !== ip) {
-		res.send({
-			success: false,
-			message: "세션이 유효하지 않습니다.",
-		});
-	} else if (new Date(Date.parse(user[0].expire)) > now) {
+	} else if (new Date(Date.parse(user[0].expire)) < now) {
+		console.log(new Date(Date.parse(user[0].expire)), now);
 		res.send({
 			success: false,
 			message: "세션이 만료되었습니다.",
 		});
 	} else {
-		const user = user[0];
-		const { id, name, email } = user;
+		const { id, name, email } = user[0];
 		res.send({
 			success: true,
 			message: "사용자 정보 조회 성공",
