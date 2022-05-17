@@ -47,5 +47,29 @@ router.post("/id-duplicate-check", (req, res) => {
 			});
 		});
 });
+router.post("/name-duplicate-check", (req, res) => {
+	const { name } = req.body;
+	db.selectUserByName(name)
+		.then((result) => {
+			if (result.length === 0) {
+				res.send({
+					success: true,
+					message: "사용 가능한 이름입니다.",
+				});
+			} else {
+				res.send({
+					success: false,
+					message: "이미 사용중인 이름입니다.",
+				});
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({
+				success: false,
+				message: "데이터베이스 오류",
+			});
+		});
+});
 
 module.exports = router;

@@ -44,6 +44,22 @@ const selectUser = (id) => {
 	});
 };
 
+const selectUserByName = (name) => {
+	return new Promise((resolve, reject) => {
+		matkor.query(
+			"SELECT * FROM users WHERE name = ?",
+			[name],
+			function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
+
 const selectSessionCount = (session_key) => {
 	return new Promise((resolve, reject) => {
 		matkor.query(
@@ -104,4 +120,11 @@ const createSession = async (user, ip) => {
 	}
 };
 
-module.exports = { router, insertUser, selectUser, createSession };
+module.exports = {
+	router,
+	insertUser,
+	selectUser,
+	createSession,
+	selectUserByName,
+	selectUserBySession,
+};
