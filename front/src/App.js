@@ -8,7 +8,9 @@ const RedirectNumberToProbnum = () => {
 	return <Navigate replace to={`/problem/${problemNumber}`} />;
 };
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(
+		localStorage.getItem("session") !== null
+	);
 	const [user, setUser] = useState({
 		id: "",
 		name: "",
@@ -18,18 +20,12 @@ function App() {
 	const getData = async () => {
 		const res = await axios.get("https://geolocation-db.com/json/");
 		setIP(res.data.IPv4);
-	};
-	useEffect(() => {
-		getData();
-	}, []);
-	useEffect(() => {
 		if (localStorage.getItem("session")) {
 			const session = localStorage.getItem("session");
-			const now = new Date();
 			axios
 				.post("/api/login/user-info", {
 					sessionKey: session,
-					ip: ip,
+					ip: res.data.IPv4,
 				})
 				.then((res) => {
 					if (res.data.success) {
@@ -51,8 +47,8 @@ function App() {
 					}
 				})
 				.catch((err) => {
+					if (localStorage.getItem("session")) alert(err.response.data.message);
 					localStorage.removeItem("session");
-					alert(err.response.data.message);
 					setIsLoggedIn(false);
 					setUser({
 						id: "",
@@ -61,8 +57,10 @@ function App() {
 					});
 				});
 		}
-		console.log(isLoggedIn);
-	}, [isLoggedIn, ip]);
+	};
+	useEffect(() => {
+		getData();
+	}, []);
 
 	const logout = () => {
 		localStorage.removeItem("session");
@@ -81,12 +79,14 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Navigate to="/home" />} />
 						<Route path="/home" element={<Home />} />
+						<Route path="login" element={<Navigate to="/home" />} />
+						<Route path="/register" element={<Navigate to="/home" />} />
+						<Route path="/error" element={<Error />} />
 						<Route path="/problem/:problemNumber" element={<Problem />} />
 						<Route
 							path="/:problemNumber"
 							element={<RedirectNumberToProbnum />}
 						/>
-						<Route path="/error" element={<Error />} />
 						<Route
 							path="*"
 							element={<Error code={404} message="Page not found" />}
