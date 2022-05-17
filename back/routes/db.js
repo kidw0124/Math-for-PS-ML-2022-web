@@ -60,6 +60,22 @@ const selectUserByName = (name) => {
 	});
 };
 
+const selectUserBySession = (session_key) => {
+	return new Promise((resolve, reject) => {
+		matkor.query(
+			"SELECT * FROM users join sessions on users.id = sessions.user_id WHERE sessions.session_key = ?",
+			[session_key],
+			function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
+
 const selectSessionCount = (session_key) => {
 	return new Promise((resolve, reject) => {
 		matkor.query(
