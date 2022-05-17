@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Navigate, Routes, useParams } from "react-router-dom";
-import { Home, Error, Login, Problem, Register } from ".";
+import { Home, Error, Login, Problem, Register, Navbar } from ".";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const RedirectNumberToProbnum = () => {
@@ -74,6 +74,12 @@ function App() {
 
 	return (
 		<div className="App">
+			{isLoggedIn ? (
+				<div id="navbar">
+					<Navbar user={user} logout={logout} />
+				</div>
+			) : null}
+
 			<div id="page">
 				{isLoggedIn ? (
 					<Routes>
