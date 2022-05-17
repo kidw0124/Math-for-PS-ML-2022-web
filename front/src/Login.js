@@ -65,10 +65,12 @@ function login_send(ip, ID, PW) {
 			}
 		)
 		.then((result) => {
-			alert(result.data.message);
-		})
-		.catch((err) => {
-			alert(err.response.data.message);
+			if (result.data.success) {
+				localStorage.setItem("session", result.data.session);
+				window.location.href = "/";
+			} else {
+				alert(result.data.message);
+			}
 		});
 }
 
@@ -87,8 +89,8 @@ function Login() {
 		<form
 			className="Login"
 			onSubmit={(e) => {
-				login_send(ip, ID, PW);
 				e.preventDefault();
+				login_send(ip, ID, PW);
 			}}
 		>
 			<h1 className="login-title">Login</h1>
