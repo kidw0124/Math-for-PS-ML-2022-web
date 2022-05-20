@@ -14,7 +14,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 const RedirectNumberToProbnum = () => {
 	const { problemNumber } = useParams();
-	return <Navigate replace to={`/problem/${problemNumber}`} />;
+	if (isNaN(problemNumber))
+		return <Error code={404} message="Page not found" />;
+	else return <Navigate replace to={`/problem/${problemNumber}`} />;
 };
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(
