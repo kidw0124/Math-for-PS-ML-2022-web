@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Navigate, Routes, useParams } from "react-router-dom";
-import { Home, Error, Login, Problem, Register, Navbar } from ".";
+import { Home, Error, Login, Problem, Register, Navbar, Problems } from ".";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const RedirectNumberToProbnum = () => {
@@ -89,6 +89,8 @@ function App() {
 						<Route path="/register" element={<Navigate to="/home" />} />
 						<Route path="/error" element={<Error />} />
 						<Route path="/problem/:problemNumber" element={<Problem />} />
+						<Route path="/problems/:page" element={<Problems />} />
+						<Route path="/problems" element={<Navigate to="/problems/1" />} />
 						<Route
 							path="/:problemNumber"
 							element={<RedirectNumberToProbnum />}
