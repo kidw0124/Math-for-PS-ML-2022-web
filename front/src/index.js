@@ -11,6 +11,7 @@ export { default as Problem } from "./Problem";
 export { default as Register } from "./Register";
 export { default as Navbar } from "./Navbar";
 export { default as Problems } from "./Problems";
+export { default as Contests } from "./Contests";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
