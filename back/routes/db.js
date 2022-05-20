@@ -151,6 +151,22 @@ const getAllProblems = () => {
 	});
 };
 
+const getProblem = (number) => {
+	return new Promise((resolve, reject) => {
+		matkor.query(
+			"SELECT * FROM problems WHERE number = ?",
+			[number],
+			function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
+
 module.exports = {
 	router,
 	insertUser,
@@ -159,4 +175,5 @@ module.exports = {
 	selectUserByName,
 	selectUserBySession,
 	getAllProblems,
+	getProblem,
 };

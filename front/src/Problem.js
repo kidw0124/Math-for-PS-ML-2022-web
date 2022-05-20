@@ -11,11 +11,10 @@ function Problem() {
 			setProblemTitle(res.data);
 		});
 	}, [problemNumber]);
-	if (isNaN(problemNumber)) {
-		return <Error code={404} message="Page not found" />;
-	}
 
-	return (
+	return isNaN(problemNumber) ? (
+		<Error code={404} message="Page not found" />
+	) : (
 		<div className="Problem">
 			<div className="Problem-title">{problemTitle}</div>
 		</div>
