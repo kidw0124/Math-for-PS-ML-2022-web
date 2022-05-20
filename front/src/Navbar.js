@@ -14,7 +14,7 @@ function Navbar() {
 				<Link to="/problems" className="Navbar-menu-item">
 					<div className="Navbar-menu-item-title">Problems</div>
 				</Link>
-				<Link to="/contest" className="Navbar-menu-item">
+				<Link to="/contests" className="Navbar-menu-item">
 					<div className="Navbar-menu-item-title">Contest</div>
 				</Link>
 				<Link to="/rank" className="Navbar-menu-item">
