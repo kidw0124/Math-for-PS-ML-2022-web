@@ -1,0 +1,55 @@
+.table-contest {
+	width: 50%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+	color: white;
+	text-decoration: none;
+	min-width: 500px;
+}
+.link-contest-number,
+.link-contest-title {
+	color: white;
+	text-decoration: none;
+}
+.link-contest-number:hover,
+.link-contest-title:hover {
+	color: #ffc107;
+	text-decoration: none;
+}
+.contests-page {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #112635;
+	color: #fff;
+}
+thead {
+	border: 2px solid #fff;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+}
+.pagination {
+	width: 15rem;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+	background-color: #112635;
+	color: #fff;
+}
+#prev-page-button,
+#next-page-button {
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+}
