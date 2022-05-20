@@ -55,11 +55,8 @@ function Problems() {
 			.get("/api/problems/list")
 			.then((res) => {
 				setProblemList(res.data);
-				console.log(res.data);
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 	}, []);
 
 	return (
