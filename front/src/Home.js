@@ -6,9 +6,6 @@ function Home({ user }) {
 	const [lecture, setLecture] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
-	const [isLoggedIn, setIsLoggedIn] = useState(
-		localStorage.getItem("session") ? true : false
-	);
 	const iconMap = {
 		pdf: "/pdf.png",
 	};
@@ -69,6 +66,35 @@ function Home({ user }) {
 
 	return (
 		<div className="Home">
+			<div className="Home-container">
+				{user.name ? (
+					<div
+						style={{
+							textAlign: "left",
+							width: "100%",
+							fontSize: "1.5rem",
+							fontWeight: "bold",
+							color: "#999999",
+							height: "2rem",
+						}}
+					>
+						{user.name}님 반갑습니다.
+					</div>
+				) : (
+					<div
+						style={{
+							textAlign: "left",
+							width: "100%",
+							fontSize: "1.5rem",
+							fontWeight: "bold",
+							color: "#999999",
+							height: "2rem",
+						}}
+					>
+						...
+					</div>
+				)}
+			</div>
 			<div className="Home-container">
 				<HomeTitle title="수업 목록" />
 				<div className="Home-list">
