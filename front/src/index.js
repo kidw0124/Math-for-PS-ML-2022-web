@@ -12,6 +12,7 @@ export { default as Register } from "./Register";
 export { default as Navbar } from "./Navbar";
 export { default as Problems } from "./Problems";
 export { default as Contests } from "./Contests";
+export { default as Rank } from "./Rank";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
