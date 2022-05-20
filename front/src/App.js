@@ -9,6 +9,7 @@ import {
 	Navbar,
 	Problems,
 	Contests,
+	Rank,
 } from ".";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -95,7 +96,7 @@ function App() {
 				{isLoggedIn ? (
 					<Routes>
 						<Route path="/" element={<Navigate to="/home" />} />
-						<Route path="/home" element={<Home />} />
+						<Route path="/home" element={<Home user={user} />} />
 						<Route path="login" element={<Navigate to="/home" />} />
 						<Route path="/register" element={<Navigate to="/home" />} />
 						<Route path="/error" element={<Error />} />
@@ -104,6 +105,8 @@ function App() {
 						<Route path="/problems" element={<Navigate to="/problems/1" />} />
 						<Route path="/contests/:page" element={<Contests />} />
 						<Route path="/contests" element={<Navigate to="/contests/1" />} />
+						<Route path="/rank/:page" element={<Rank />} />
+						<Route path="/rank" element={<Navigate to="/rank/1" />} />
 						<Route
 							path="/:problemNumber"
 							element={<RedirectNumberToProbnum />}

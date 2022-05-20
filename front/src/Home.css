@@ -1,0 +1,61 @@
+.Home-lecture-table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+	color: white;
+	text-decoration: none;
+	min-width: 500px;
+}
+.Home-list {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #112635;
+	color: #fff;
+}
+.Home-title {
+	width: 100%;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	text-align: left;
+}
+.Home-lecture-table-data-icon {
+	height: 2rem;
+}
+.Home-lecture-table-data {
+	width: 100%;
+	height: 2rem;
+	padding-top: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+.Home-container {
+	width: 80%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #112635;
+	color: #fff;
+	text-align: left;
+}
+.Home {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #112635;
+	color: #fff;
+}
+thead {
+}
