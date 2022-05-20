@@ -9,9 +9,9 @@ function Contests() {
 	const [contestList, setContestList] = useState([
 		{
 			number: 1,
-			title: "5/2 1강 내용",
-			startTime: "2020-01-01",
-			endTime: "2020-01-01",
+			title: "1~2강 내용",
+			startTime: "2022-06-03 00:00:00",
+			endTime: "2022-06-03 17:00:00",
 		},
 	]);
 	const [numberEachPage, setNumberEachPage] = useState(100);
