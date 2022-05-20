@@ -128,3 +128,6 @@ dist
 
 # config folder
 */config
+
+#no upload folder
+/*noupload
