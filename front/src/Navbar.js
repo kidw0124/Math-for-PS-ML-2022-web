@@ -2,7 +2,7 @@ import "./Navbar.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ user, logout }) {
 	return (
 		<div className="Navbar">
 			<div id="Navbar-title">
@@ -24,7 +24,9 @@ function Navbar() {
 			<div id="Navbar-menu-right">
 				<div>
 					<div className="Navbar-menu-item">
-						<div className="Navbar-menu-item-title">로그아웃</div>
+						<div className="Navbar-menu-item-title" onClick={logout}>
+							로그아웃
+						</div>
 					</div>
 				</div>
 			</div>
